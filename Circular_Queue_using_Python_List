@@ -1,0 +1,62 @@
+
+class CircularQueue:
+    def __init__(self, capacity):
+        self.capacity = capacity     # total size
+        self.queue = [None] * capacity
+        self.front = 0
+        self.rear = -1
+        self.size = 0
+
+    def is_empty(self):
+        return self.size == 0
+
+    def is_full(self):
+        return self.size == self.capacity
+
+    def enqueue(self, data):
+        if self.is_full():
+            print("Queue is full")
+            return
+
+        self.rear = (self.rear + 1) % self.capacity
+        self.queue[self.rear] = data
+        self.size += 1
+
+    def dequeue(self):
+        if self.is_empty():
+            print("Queue is empty")
+            return
+
+        data = self.queue[self.front]
+        self.queue[self.front] = None
+        self.front = (self.front + 1) % self.capacity
+        self.size -= 1
+        print("Deleted element:", data)
+
+    def display(self):
+        if self.is_empty():
+            print("Queue is empty")
+            return
+
+        for i in range(self.size):
+            index = (self.front + i) % self.capacity
+            print(self.queue[index], end=" ")
+        print()
+
+
+# Main program
+q = CircularQueue(10)
+
+# 10 fixed elements
+elements = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+
+for element in elements:
+    q.enqueue(element)
+
+print("Circular Queue:")
+q.display()
+
+q.dequeue()
+
+print("Queue after deletion:")
+q.display()
